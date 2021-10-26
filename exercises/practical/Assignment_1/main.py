@@ -46,14 +46,19 @@ class DiagnosticProfile:
 
 
 def exercise():
-    dafr = pd.DataFrame([['cancer', 2, 1, 0],
-          ['cancer', 3, 1, 0],
-          ['cancer', 1, 3, 0],
-          ['cancer', 1, 1, 1],
-          ['no cancer', 12, 2, 3],
-          ['no cancer', 2, 3, 4],
-          ['no cancer', 2, 5, 6]])
-    DiagnosticProfile(dafr, ['cancer', 'no cancer'], ['age', 'menopause', 'tumor-size'])
+    url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer/breast-cancer.data'
+    dafr = pd.DataFrame(np.loadtxt(url, delimiter=",", dtype=bytes))
+
+    # dafr = pd.DataFrame([['cancer', 2, 1, 0],
+    #       ['cancer', 3, 1, 0],
+    #       ['cancer', 1, 3, 0],
+    #       ['cancer', 1, 1, 1],
+    #       ['no cancer', 12, 2, 3],
+    #       ['no cancer', 2, 3, 4],
+    #       ['no cancer', 2, 5, 6]])
+    # DiagnosticProfile(dafr, ['cancer', 'no cancer'], ['age', 'menopause', 'tumor-size'])
+    dp = DiagnosticProfile(dafr, [b'no-recurrence-events', b'recurrence-events'], ['age', 'menopause', 'tumor-size',
+                                                                                 'inv-nodes', 'node-caps', 'deg-malig', 'breast', 'breast-quad', 'irradiat'])
 
 
 if __name__ == '__main__':
