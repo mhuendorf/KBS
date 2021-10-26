@@ -10,7 +10,19 @@ class DiagnosticProfile:
         for dia in diagnosis:
             self.diagnostic_profiles[dia] = {}
             for finding in findings:
-                self.diagnostic_profiles[dia][finding] = [('value', 'freq'), ('value', 'freq')]
+                self.diagnostic_profiles[dia][finding] = {}
+
+        for row in df.values:
+            dia = row[0]
+            for i in range(1, len(row)):
+                if row[i] in self.diagnostic_profiles[dia][findings[i-1]].keys():
+                    self.diagnostic_profiles[dia][findings[i-1]][row[i]] += 1
+                else:
+                    self.diagnostic_profiles[dia][findings[i - 1]][row[i]] = 1
+
+        print(self.diagnostic_profiles)
+
+
 
 
     def prune(self, int_val):
@@ -19,7 +31,14 @@ class DiagnosticProfile:
 
 
 def exercise():
-    DiagnosticProfile(pd.DataFrame(np.random.randint(1,100, 80).reshape(8, -1)), ['cancer', 'no cancer'], ['age', 'menopause', 'tumor-size'])
+    dafr = pd.DataFrame([['cancer', 2, 1, 0],
+          ['cancer', 3, 1, 0],
+          ['cancer', 1, 3, 0],
+          ['cancer', 1, 1, 1],
+          ['no cancer', 12, 2, 3],
+          ['no cancer', 2, 3, 4],
+          ['no cancer', 2, 5, 6]])
+    DiagnosticProfile(dafr, ['cancer', 'no cancer'], ['age', 'menopause', 'tumor-size'])
 
 
 if __name__ == '__main__':
