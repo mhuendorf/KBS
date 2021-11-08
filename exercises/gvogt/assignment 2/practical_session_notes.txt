@@ -1,0 +1,8 @@
+Horizontal Hybrid learning
+When not enough data for deep learning is available, prior symbolic knowledge could be taken from
+other networks or experts and encoded into a neural network. This can improve efficiency of learning and 
+prevent overfitting. The training process is changed so that the logical knowledge are used as parameters 
+that affect the training.
+
+In knowledge transfer learning, one kind of horizontal hybrid learning, symbolic knwoledge from a domain is extracted 
+and then transfered to improve learning in a related domain.
