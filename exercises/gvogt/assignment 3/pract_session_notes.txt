@@ -1,0 +1,58 @@
+question 1:What is Explainable Machine Learning?
+- In the way the term is currently being used: an "Explainable Machine Learning" model consists of two separate models
+- one is a "black box" model (often a deep learning model, which represents a function too recursive and difficult for humans to understand)
+- the other model is the "explanation": this model replicates most of the features of the original model, but represents the output in a way that makes it possible for humans to understand how the original model came to its conclusion.
+- However, the term "explainable" is misleading because the second model does not necessarily use the same features and the same computations as the first model, even though it does come to the same solution. A better formulation would be "approximation to black box predicitions" as they "show trends in how predictions are related to the features"
+
+question 2:What are the features of Interpretable Machine Learning?
+No need for a second Model to make sense of the main model
+Explainable by Design / not trying to explain a black box
+See flaws / learning mistakes/ Bias in data and correct the model
+
+exp. vs interp.
+
+interpretable also give explanations, special methods for explainable
+
+question 3:Why and when do we need both?
+- high-stake decisions need interpretable models, otherwise it can have severe consequences
+- Uninterpretable algorithms can still be useful in high-stakes decisions as part of the knowledge discovery process
+- Black box models are often not compatible with situations where information outside the database needs to be combined
+with a risk assessment
+- It is possible that the explanation leaves out so much information that it makes no sense ; reason for interpretable models
+- in the practice of data science, the small difference in performance between ML algorithms can be overwhelmed by the ability to interpret results and process
+-Thinking about not high-stakes decision Efficient frameworks for ‘black box ml”
+- performance between interpretable models and explainable is less important than the value an interpretable model generates
+
+question 4:Are there any disadvantages?
+- Interpretable models require "significant effort to construct in terms of both computation and domain expertise". (Additional constraints make the problem harder to solve optimally.)
+- An "explainer model" for a black box may provide explanations that "are not faithful to what the original model computes". This can mislead humans and lead to false assumptions about the model.
+- If the result and explanation of a black box model need to be interpreted by humans, it is not clear which features have ACTUALLY been considered by the model. Example: The COMPAS system does not take into into account the seriousness of the crime under consideration but judges are advised to combine this with the model's result.
+- There is less of a commercial interest in creating transparent models. Information about the model's reasoning process can be extracted by outside actors and used to create new models without relying on the original model creator.
+
+question 5:What are specific challenges in their application?
+
+- Interpretable models can entail significant effort to construct in terms of both computation and domain expertise. The knowledge gap between modelers and experts needs to be overcome
+- Corporations want to use black box models because they do not need to be transparent and therefore are not easily measurable by clients. Also,S competing corporations can not easily adapt them.
+- Interpretability is not always clearly defined, for example in computer vision.
+- Constructing optimal interpretable models can be computational hard, so good optimization methods need to be found. Heuristic methods alone might be insufficient.
+- The notion that interpretability and accuracy are contrary needs to be overcome
+
+question 6:Can, and if so, how, explainable and interpretable ML be implemented efficiently?
+
+Generally most of interpretable machine learning is computational hard.
+These computational problems can be solved by
+leveraging a combination of theoretical and systems-level tech-
+niques.
+Logical Models can be accelerated by using special datastructures, search space reduction and fast exploration
+of search space.
+For optimal sparse scoring systems techniques like cutting plane algorithms and branching can accelerate computation.
+"Interpretable neural networks" are generally harder than normal neural networks.
+Efficient algorithms, in terms of computational complexity, need further research.
+
+question 7:What are some exemplary techniques to apply?
+
+* What are some exemplary techniques to apply?
+* Saliency Maps (explainable ML) useful to determine what part of the image is being omitted by the classifier
+* CORELS model (Constructs optimal logic models in the form of a rule list by solving equation (1) in paper)
+* RiskSLIM (solves minimization problem for constructing optimal sparse scoring systems)
+* Append a special prototype layer to the end of the network. Prototype layer finds parts of training images that act like prototype classes.
