@@ -1,0 +1,51 @@
+1. What are Complex Networks?
+
+Complex Networks are networks, used to represent and analyse complex systems. 
+They are based on graphs and have certain network topologies, which define the boundaries, parts and relationships.
+They are extended by further features like multiple kinds of edges or nodes as in 
+multilayer networks or different measures like modularity.
+
+2. Why are they useful, in general?
+
+Some systems are too complex to be represented through simple networks, and the extra measures can be used to represent certain structures
+or systems much more easily or accurately. Like in a transportation system where different kinds of edges are used for different flights from different 
+airline companies.  
+Simple datamining Algorithms alone can be insufficient to deal with structures of complex systems, as interactions on a global scale are usually not analysed
+and Complex Networks can help with this. 
+	 
+    
+3. What are specific challenges in their application?
+
+One challenge is node selection or definition. For example in neuroscience, if each voxel in fMRI data is 
+identified with a node, the amount of nodes can be extremely large and the amount of interactions between them can be even larger. Therefore one
+must find a way to reduce the number of nodes in such a case. In other cases it can be a problem to decide which nodes are relevant, for example when looking 
+at a transportation system for a certain region and deciding which airports outside of that region can still be relevant. 
+Deciding which links are relevant for the systems structure can pose a very similar challenge. 
+ 
+4. What is their relationship to Data Mining, and how can Complex Networks and Data Mining be connected?
+
+Fundamentally both can be used for analysing patterns in or extracting other information from data.
+However, Data Mining and Complex Networks have differences, with the former being more focussed on finding patterns in data
+and complex networks being more focussed on actually describing relations in systems represented by the data. 
+Complex Networks and Data Mining can be connected for classification for example by creating networks from EEG data and classifying them with Decision Trees.
+Complex Networks can be used to represent brain acivity, data mining algorithms can then be used on the networks to classify which 
+task the network/brain activity represents. Another way to connect Complex Networks and Data Mining is to use Complex Networks 
+in Feature Selection to determine the most important features for a Data Mining Model. 
+	
+    
+5. How do exemplary classification approaches work?
+
+fMRI or EEG data can be used to create functional Networks to represent brain activity. On these networks, Complex Network metrics and Data 
+Mining Algorithms like SVM are then used in order to classify the presence of a disease or to classify which task the brain is doing.
+Decision trees can be used aswell. The Decision tree woud be given a Complex Network, and then use the values of Complex Network metrics like 
+link density to classify the given networks.
+In the field of protein function prediction, some exemplary approaches are Decision Trees and Bayesian Networks or random forest based methods 
+combined with bipartite network representations.
+    
+6. What are some further exemplary techniques to apply?
+Further techniques are for example link prediction, where Data Mining Algorithms are used 
+to predict which links exist in complex networks, also taking into account their topology.
+Another technique is to represent features in a Complex Network, which then can be used to find the most important features, which
+solves the problem of feature selection for Data Mining Algorithms. 
+A further technique is to transform big and heterogenous amounts of data into a (complex) network structure, this simplifies the data 
+and makes them more homogenous and therefore makes it possible to use them for Data Mining more efficiently. 
