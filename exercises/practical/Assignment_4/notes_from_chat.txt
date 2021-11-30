@@ -1,0 +1,82 @@
+Room1 (1) What are Complex Networks?
+- Similar goal to data mining: Extract information from complex system and create a new representation that can be used in successive steps of the analysis
+  - Graph/Network representation of a system after all unnessesary details are removed
+  - Distinction between structural and functional networks
+  - Structrual networks have the same topolgy as seen in the real system
+  - Functional networks try to represent interactions between components of the real system when they are observed
+  - Different metrics can be extracted which lead to conclusions about the real world system
+  - A Complex networks doesnt have to be a single network (multi layer Networks)
+  
+Room2 (2) Why are they useful, in general?
+- Temporal Networks: Edges are not continuously active, but with complex networks we can model these functional links.
+- One single data mining algorithm is in general not sufficient to deal with the structure of a sufficiently complex system. Data mining algorithms are optimised to extract relationships between a small set of features, but are not optimised to analyse interactions on a global scale
+- Complex networks model the system with a holistic approach. They identify target structures and can be used to describe the structure of relationships and are therefore applicable to other analogous problems. (Data Mining is optimised to extract relationships between a small set of features, but is not optimised to analyse interactions on a global scale.)
+- Can make use of existing graph theoretical approaches, for example Minimum Spanning Trees or Shortest Paths
+- Can be more human interpretable by making functional dependencies more visible. It can also help in identifying emergent patterns.
+
+Room3 (3) What are specific challenges in their application?
+
+Challenge “finding” the right function
+Concerning functional networks: One may suppose that each element’s dynamics is a function of
+its neighbors. The first step then requires quantifying these functions (hence the name functional networks).
+
+Challenge “tuning the metrics”
+In the most general case, reconstructing functional networks involves choosing (or tuning) three different aspects of the analysis, namely:
+1. The connectivity metric. This is the measure assessing the presence of some relationship between the dynamics of two elements of the system.
+2. A threshold. While not essential, it is customary to eliminate those links that have a low statistical significance, and to consider the binarized version of the network, i.e. to discard weights.
+3. The topological metrics. These metrics describe the structure of the resulting networks and eventually compare different groups of subjects.
+
+Method “feature selection”
+The goal is reducing the sample size, and thus the
+computational cost of the analysis; focusing the analysis only on relevant data.
+
+Challenge temporal networks
+
+Temporal and multi-layer networks bring a new aspect to edges, where interactions between nodes may differ between time or the kind of interaction due to multiple edges with different meanings.
+
+
+
+Room4 (4) What is their relationship to Data Mining, and how can Complex Networks and Data Mining be connected?
+Similarities: 
+        
+- similar goals: given some data, usually representing a complex system, the aim is to extract (or synthesise) some information from them, and create a new representation (either a complex network, or a data mining model) that can be used in successive steps of the analysis. 
+ 
+- many of the problems encountered in both fields are similar 
+
+Differences: 
+
+ -Networks aim at describing the relations between the elements of a single (complex) system, by means of patterns that have a statistical nature and that are free from any topological space.
+
+ - Data mining characterises the relations between the observables associated to different instances (not of a single system), by means of patterns pinned to a set of well-identified elements/features that are used to *explain* reality
+
+Combination:
+
+- Data mining helps selecting synchronisation metric, threshold and topological metrics
+
+- Data mining "can be used to tackle one of the most important problems in the application of complex network theory" (--> the reconstruction of meaningful functional networks)
+
+- Merging both approaches is an ongoing process
+
+Room5 (5) How do exemplary classification approaches work?
+- Define meaning of nodes and links, create network representation for the data, extract topological metrics, find differences between states
+- build a functional network with Support Vector Machines (SVM) with multiple kernel learning, Decision Trees, nearest neighbour classification (NNC)
+- multiple kernel learning: can help merging information from different types of data and shows the part of the networks which are relevant for a class
+
+6. What are some further exemplary techniques to apply?
+
+- Complex networks can be used to increase feature significance by for instance choosing thresholds to prune data, and by accessing "functional relationships" between graph nodes
+
+- Complex networks can be used to select more meaningful/higher-level features (similar to data mining) that are easier for humans or other models to interpret.
+
+- link prediction, where Data Mining Algorithms are used to predict which links exist in complex networks, also taking into account their topology.
+
+- Another technique is to represent features in a Complex Network, which then can be used to find the most important features, which
+solves the problem of feature selection for Data Mining Algorithms.
+
+- A further technique is to transform big and heterogenous amounts of data into a (complex) network structure, this simplifies the data and makes them more homogenous and therefore makes it possible to use them for Data Mining 
+more efficiently.
+
+- Representing the data as a graph structure can help make the model more understandable by providing a semantic representation of the original model
+
+
+- Finally, Representing the data as a graph can help make the model more understandable (for humans) by providing a semantic representation of the original model
