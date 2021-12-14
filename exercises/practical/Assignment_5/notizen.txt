@@ -1,0 +1,75 @@
+1. Why are they useful?
+
+    describe real world entities and their relations
+
+    attempt to be domain-agnostic and combine knowledge from many different domains
+
+    can be corrected and completed even after their creation (increase coverage and correctness)
+
+    can be refined using many approaches: by closed groups or individuals, crowd-sourced from the public (see e.g. Freebase and Wikidata), by means of (semi-)automatic and heuristic techniques
+
+    human experts can manually curate and validate information in a knowledge graph to improve its interpretability and quality
+
+    multiple knowledge graphs can be interlinked to improve overall performance
+
+    existing information can be leveraged when creating new knowledge graphs
+
+
+2. How are they constructed (with examples)?
+They are various ways of building knowledge graphs. They can be curated, edited by the crowd or extracted from large-scale, semi-structured
+web knowledge bases such as Wikipedia.
+-Freebase: Distributing the effort of the time consuming construction on as many shoulders as possible through crowdsourcing -> Make
+graph publicly editible
+-DBpedia: Extracted from structured data in Wikipeda using the key-value pairs in the Wikipedia infoboxes. Then crowdsourced process.
+-YAGO: Builds its classification implicitly from the category system in Wikipedia and the system WordNet, with infobox properties manually
+mapped to a fixed set of attributes. YAGO also aims to automaticly fuse different language editions of Wikipedia.
+
+
+
+3. What is knowledge graph refinement, and how does it work?
+
+    knowledge graph refinement assumes that there is already a knowledge graph given which is improved, e.g., by adding missing knowledge or identifying and removing errors
+
+    two options: graph completion and error detection
+
+    completions → adding missing information to the graph
+
+    error detection → removing wrong information from the graph
+
+    firstly, one needs to identify, what one wants to refine
+
+    for example, one might want to focus on completing/correcting entity type information
+
+    another options could be to target relations between entities, or interlinks between different knowledge graphs
+
+    secondly, one can choose between using external or internal methods: external methods utilize additional data outside of the graph, while internal approaches limit themselves to the knowledge graph itself
+
+
+4. What is knowledge graph completion, and how does it work?
+
+     Completion of knowledge graphs aims at increasing the coverage of a knowledge graph. 
+
+    * Depending on the target information, methods for knowledge graph completion either predict missing entities, missing types for entities, and/or missing relations that hold between entities.
+
+    * Internal methods use only the knowledge contained in the knowledge graph itself to predict missing information. 
+
+    * External methods use sources of knowledge – such as text corpora or other knowledge graphs – which are not part of the knowledge graph itself.
+
+    Methods could be:
+
+        classification, supervised and unsupervised
+
+        association rule mining
+
+        follow chains of relations to infer new ones
+
+        probabilistic mapping
+
+
+5. How do you evaluate those techniques?
+* Partial Gold Standard: manually label a set of graph entities or relations or external KGs or DBs as "ground truth"
+* Completion: only check if what is there should be (F Measure)
+* Correction: label every entity as correct or incorrect (Accuracy, ROC)
+* KG as Silver Standard: Same as Gold Standard, but under the assumption, that the KG at hand already is of reasonable quality - destroy a part of it on purpose and compare the results of the completion (not suitable for correction) to the original
+* Retrospective Evaluation: Let experts look over and correct the results that the approaches give. Because of the sheer number of data from automatic approaches most of the time only carried out on samples of the results, not reusable
+* Computational Performance: How fast / memory efficient is it?
