@@ -100,9 +100,13 @@ def test_accuracy(file, lambs, file_CART, file_OSDT, timelimit=1800):
                     [str(i), str(lamb), str(nleaves_OSDT), str(trainaccu_OSDT), str(testaccu_OSDT),
                      str(totaltime), str(time_c), str(leaves_c)]) + '\n')
 
-""""
+
 lambs1 = [0.1, 0.05, 0.025, 0.01, 0.005, 0.0025]
 
+
+test_accuracy('../data/preprocessed/compas-binary.csv', lambs=[0.025, 0.01],
+              file_CART=r'./accuracy/cart_compas.txt', file_OSDT=r'./accuracy/osdt_compas.txt')
+"""
 test_accuracy('../data/preprocessed/compas-binary.csv', lambs=[0.025, 0.01, 0.005, 0.001, 0.0005],
               file_CART=r'./accuracy/cart_compas.txt', file_OSDT=r'./accuracy/osdt_compas.txt')
 
