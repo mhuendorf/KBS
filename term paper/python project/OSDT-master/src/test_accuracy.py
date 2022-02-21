@@ -100,7 +100,7 @@ def test_accuracy(file, lambs, file_CART, file_OSDT, timelimit=1800):
                     [str(i), str(lamb), str(nleaves_OSDT), str(trainaccu_OSDT), str(testaccu_OSDT),
                      str(totaltime), str(time_c), str(leaves_c)]) + '\n')
 
-#"""
+""""
 lambs1 = [0.1, 0.05, 0.025, 0.01, 0.005, 0.0025]
 
 test_accuracy('../data/preprocessed/compas-binary.csv', lambs=[0.025, 0.01, 0.005, 0.001, 0.0005],
@@ -123,7 +123,7 @@ test_accuracy('../data/preprocessed/monk3-train.csv', lambs=[0.1, 0.025, 0.01, 0
 
 test_accuracy('../data/preprocessed/fico_binary.csv', lambs=[0.05, 0.005, 0.001, 0.00035],
               file_CART=r'./accuracy/cart_fico.txt', file_OSDT=r'./accuracy/osdt_fico.txt')
-#"""
+"""
 
 def test_accuracy_onefold(file, lambs, file_CART, file_OSDT, timelimit):
     """
@@ -182,7 +182,7 @@ lambs1 = [0.1, 0.05, 0.025, 0.01, 0.005, 0.0025]
 
 timelimi1 = 1800
 #timelimi2 = 7200 # set time limit to be 2h
-#'''
+'''
 test_accuracy_onefold('../data/preprocessed/compas-binary.csv', lambs=[0.025, 0.01, 0.005, 0.001, 0.0005],
                       file_CART=r'./accuracy/cart_compas.txt', file_OSDT=r'./accuracy/osdt_compas.txt', timelimit=timelimi1)
 
@@ -206,4 +206,4 @@ test_accuracy_onefold('../data/preprocessed/monk2-train.csv', lambs=[0.1, 0.025,
 
 test_accuracy_onefold('../data/preprocessed/monk3-train.csv', lambs=[0.1, 0.025, 0.01, 0.005],
                       file_CART=r'./accuracy/cart_monk3.txt', file_OSDT=r'./accuracy/osdt_monk3.txt', timelimit=timelimi1)
-#'''
+'''
