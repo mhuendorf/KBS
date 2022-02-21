@@ -1,0 +1,30 @@
+{
+  "balance": false,
+  "cancellation": true,
+  "look_ahead": true,
+  "similar_support": true,
+  "feature_exchange": true,
+  "continuous_feature_exchange": true,
+  "rule_list": false,
+
+  "diagnostics": false,
+  "verbose": false,
+
+  "regularization": 0.05,
+  "uncertainty_tolerance": 0.0,
+  "upperbound": 0.0,
+
+  "model_limit": 1,
+  "precision_limit": 0,
+  "stack_limit": 0,
+  "tile_limit": 0,
+  "time_limit": 0,
+  "worker_limit": 1,
+
+  "costs": "",
+  "model": "",
+  "profile": "",
+  "timing": "",
+  "trace": "",
+  "tree": ""
+}
