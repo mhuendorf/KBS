@@ -2,8 +2,9 @@ from read_write import reader
 import gosdt
 
 if __name__ == '__main__':
-    data = reader.collect_data()
-    for dataset in data:
+    data = reader.collect_data('../res')
+    for name, dataset in data:
+        print(name + ":")
         print(dataset)
 
     #with open("../GeneralizedOptimalSparseDecisionTrees-master/test/fixtures/binary_sepal.csv", "r") as data_file:
