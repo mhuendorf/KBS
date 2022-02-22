@@ -2,7 +2,7 @@
 #define CONFIGURATION_H
 
 #include <iostream>
-#include <json/json.hpp>
+//#include <json/json.hpp>
 
 using json = nlohmann::json;
 

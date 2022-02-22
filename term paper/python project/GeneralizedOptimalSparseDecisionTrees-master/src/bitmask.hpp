@@ -9,7 +9,7 @@
 #include <sstream>
 #include <gmp.h>
 #include <boost/dynamic_bitset.hpp>
-#include <simdpp/simd.h>
+//#include <simdpp/simd.h>
 #include <tbb/scalable_allocator.h>
 
 #include "integrity_violation.hpp"

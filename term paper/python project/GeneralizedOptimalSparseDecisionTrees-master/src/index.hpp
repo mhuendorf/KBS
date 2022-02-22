@@ -9,7 +9,7 @@
 #include <boost/numeric/ublas/vector_proxy.hpp>
 #include <boost/numeric/ublas/vector_expression.hpp>
 #include <tbb/scalable_allocator.h>
-#include <simdpp/simd.h>
+//#include <simdpp/simd.h>
 
 #ifdef INCLUDE_OPENCL
 #include <opencl/cl.hpp>
