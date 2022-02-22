@@ -7,15 +7,15 @@ from os.path import isfile, join, splitext
 categories = ['census', 'chess', 'dota', 'mushroom', 'spam']
 
 
-def collect_data():
+def collect_data(path_to_resorces: str):
     """Reads in every datafile in the specified folders and returns it."""
     datasets = []
     for folder in categories:
-        path = '../res/' + folder
+        path = path_to_resorces + "/" + folder
         files = [f for f in listdir(path) if isfile(join(path, f))]
         for file in files:
             if splitext(file)[1] == '.data' or splitext(file)[1] == '.csv':
-                datasets.append(pd.read_csv(path + '/' + file))
+                datasets.append((splitext(file)[0], pd.read_csv(path + '/' + file)))
 
     return datasets
 
