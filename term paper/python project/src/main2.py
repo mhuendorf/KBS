@@ -7,21 +7,25 @@ if __name__ == '__main__':
     #data = reader.collect_data()
     #for dataset in data:
     #    print(dataset)
-    data = reader.collect_data('../res')
-    for name, dataset in data:
-        print(name + ":")
-        print(dataset)
+    #data = reader.collect_data('../res')
+    #for name, dataset in data:
+    #    print(name + ":")
+    #    print(dataset)
 
     dataframe = pd.DataFrame(pd.read_csv("../res/test/monk1-train_comma.csv"))
 
     X = dataframe[dataframe.columns[:-1]]
     y = dataframe[dataframe.columns[-1:]]
 
+    """
     hyperparameters = {
         "regularization": 0.1,
         "time_limit": 3600,
         "verbose": True,
     }
+    """
+    with open("../res/config.json", "r") as config_file:
+        hyperparameters = config_file.read()
 
     model = GOSDT(hyperparameters)
     model.fit(X, y)
