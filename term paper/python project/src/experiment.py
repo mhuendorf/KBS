@@ -1,3 +1,4 @@
+#Author: Gideon Vogt
 import gosdt
 from osdt import bbound
 from pyids.algorithms.ids_classifier import mine_CARs
