@@ -29,19 +29,24 @@ def run_gosdt(data_csv_paths: [str], config_file_path: str, result_file_path: st
         file_exists = False
 
     if ((not file_exists) or reset_file):
-        resultFile = open(result_file_path, "w")
+        result_file = open(result_file_path, "w")
     else:
-        resultFile = open(result_file_path, "a")
+        result_file = open(result_file_path, "a")
 
     # read and apply config
     with open(config_file_path, "r") as config_file:
         hyperparameters = config_file.read()
     model = GOSDT(hyperparameters)
 
+    # write to result file
+    result_file.write("\nNew Run: \n")
+    result_file.write("Config: \n")
+    result_file.write(hyperparameters)
+
     # solve datasets given
-    for dataCsvPath in data_csv_paths:
+    for data_csv_path in data_csv_paths:
         # read in data
-        dataframe = pd.DataFrame(pd.read_csv(dataCsvPath))
+        dataframe = pd.DataFrame(pd.read_csv(data_csv_path))
         X = dataframe[dataframe.columns[:-1]]
         y = dataframe[dataframe.columns[-1:]]
 
@@ -50,12 +55,19 @@ def run_gosdt(data_csv_paths: [str], config_file_path: str, result_file_path: st
 
         # results
         # TODO Write Function for writing a line of results into resultfile
-        print("Execution Time: {}".format(model.time))
+        exec_time = format(model.time)
+        print("Execution Time: {}".exec_time)
         prediction = model.predict(X)
         training_accuracy = model.score(X, y)
         print("Training Accuracy: {}".format(training_accuracy))
         print(model.tree)
+        # write to file
+        write_resultline(result_file, "gosdt", result_file_path, data_csv_path, exec_time, str(training_accuracy),
+                         str(0))
+    result_file.close()
 
+#def run_osdt()
 
-def write_resultline(algname: str, dataset_path: str, exec_time: str, train_acc: str, test_acc: str):
-    print("e")
+def write_resultline(opened_result_file,
+                     algorithm_name: str, dataset_path: str, exec_time: str, train_acc: str, test_acc: str):
+    opened_result_file.write(algorithm_name + "," + dataset_path + "," + exec_time + "," + train_acc + "," + test_acc)
