@@ -10,6 +10,10 @@ import gosdt
 from model.gosdt import GOSDT
 import pandas as pd
 import time
+from pyarc.qcba.data_structures import (
+QuantitativeDataFrame,
+QuantitativeCAR
+)
 
 def run_gosdt_withc(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
     """
@@ -138,6 +142,21 @@ def run_osdt(data_csv_paths: [str], config_file_path: str, result_file_path: str
         _, training_accuracy2 = osdt.predict(leaves_c, prediction_c, dic, X_train, y_train, best_is_cart, clf)
         write_resultline(result_file, "osdt", data_csv_path, exec_time, str(training_accuracy2),
                          str(0))
+    result_file.close()
+
+def run_pyids(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
+    # open file
+    result_file = open_resultfile(result_file_path, reset_file)
+    for data_csv_path in data_csv_paths:
+        data = pd.read_csv(data_csv_path)
+        cars = mine_CARs(data,50)
+        lambda_array = [1,1,1,1,1,1,1]
+        quant_dataframe = QuantitativeDataFrame(data)
+        quant_cars = list(map(QuantitativeCAR, cars))
+        ids = IDS()
+        ids.fit(quant_dataframe=quant_dataframe, class_association_rules=cars, lambda_array=lambda_array)
+        training_accuracy = ids.score(quant_dataframe)
+        #TODO WRITE TO FILE
     result_file.close()
 
 def open_resultfile(result_file_path: str, reset_file: bool = False):
