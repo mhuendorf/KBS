@@ -9,7 +9,6 @@ import os.path
 from model.gosdt import GOSDT
 import pandas as pd
 
-
 def run_gosdt(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
     """
     Executes the GOSDT Algorithm on the given Datasets
@@ -39,9 +38,9 @@ def run_gosdt(data_csv_paths: [str], config_file_path: str, result_file_path: st
     model = GOSDT(hyperparameters)
 
     # write to result file
-    result_file.write("\nNew Run: \n")
-    result_file.write("Config: \n")
-    result_file.write(hyperparameters)
+    #result_file.write("\nNew Run: \n")
+    #result_file.write("Config: \n")
+    #result_file.write(hyperparameters)
 
     # solve datasets given
     for data_csv_path in data_csv_paths:
@@ -56,13 +55,13 @@ def run_gosdt(data_csv_paths: [str], config_file_path: str, result_file_path: st
         # results
         # TODO Write Function for writing a line of results into resultfile
         exec_time = format(model.time)
-        print("Execution Time: {}".exec_time)
+        print("Execution Time: {}".format(model.time))
         prediction = model.predict(X)
         training_accuracy = model.score(X, y)
         print("Training Accuracy: {}".format(training_accuracy))
         print(model.tree)
         # write to file
-        write_resultline(result_file, "gosdt", result_file_path, data_csv_path, exec_time, str(training_accuracy),
+        write_resultline(result_file, "gosdt", data_csv_path, exec_time, str(training_accuracy),
                          str(0))
     result_file.close()
 
@@ -71,3 +70,6 @@ def run_gosdt(data_csv_paths: [str], config_file_path: str, result_file_path: st
 def write_resultline(opened_result_file,
                      algorithm_name: str, dataset_path: str, exec_time: str, train_acc: str, test_acc: str):
     opened_result_file.write(algorithm_name + "," + dataset_path + "," + exec_time + "," + train_acc + "," + test_acc)
+
+if __name__ == '__main__':
+    run_gosdt(["../res/test/monk1-train_comma.csv"], "../res/config.json", "../results/first_result_file.csv", False)
