@@ -6,11 +6,69 @@ from pyids.algorithms.ids import IDS
 import os.path
 # import sys
 # sys.path.append('../GeneralizedOptimalSparseDecisionTrees-master/python')
+import gosdt
 from model.gosdt import GOSDT
 import pandas as pd
 import time
 
-def run_gosdt(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
+def run_gosdt_withc(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
+    """
+    Executes the GOSDT Algorithm on the given Datasets
+    Args:
+        dataCsvPaths:
+        resultFilePath:
+        resetFile:
+
+    Returns:
+
+    """
+    # open file
+    result_file = open_resultfile(result_file_path, reset_file)
+
+    # read and apply config
+    with open(config_file_path, "r") as config_file:
+        hyperparameters = config_file.read()
+    model = GOSDT(hyperparameters)
+    gosdt.configure(hyperparameters)
+
+    # write to result file
+    #result_file.write("\nNew Run: \n")
+    #result_file.write("Config: \n")
+    #result_file.write(hyperparameters)
+
+    # solve datasets given
+    for data_csv_path in data_csv_paths:
+        # make model with c++
+        with open(data_csv_path, "r") as data_file:
+            data = data_file.read()
+        start = time.time()
+        result = gosdt.fit(data)
+        model_file = open("../results/model.json", "w")
+        model_file.write(result)
+        model_file.close()
+
+        # read in data
+        dataframe = pd.DataFrame(pd.read_csv(data_csv_path))
+        X = dataframe[dataframe.columns[:-1]]
+        y = dataframe[dataframe.columns[-1:]]
+
+        # execute
+
+        #model.fit(X, y)
+        model.load("../results/model.json")
+        end = time.time()
+        exec_time = str(end - start)
+
+        # results
+        # TODO Write Function for writing a line of results into resultfile
+        prediction = model.predict(X)
+        training_accuracy = model.score(X, y)
+        # write to file
+        write_resultline(result_file, "gosdt_c", data_csv_path, exec_time, str(training_accuracy),
+                         str(0))
+    result_file.close()
+
+def run_gosdt_withoutc(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
     """
     Executes the GOSDT Algorithm on the given Datasets
     Args:
@@ -42,6 +100,7 @@ def run_gosdt(data_csv_paths: [str], config_file_path: str, result_file_path: st
         y = dataframe[dataframe.columns[-1:]]
 
         # execute
+
         start = time.time()
         model.fit(X, y)
         end = time.time()
@@ -52,7 +111,7 @@ def run_gosdt(data_csv_paths: [str], config_file_path: str, result_file_path: st
         prediction = model.predict(X)
         training_accuracy = model.score(X, y)
         # write to file
-        write_resultline(result_file, "gosdt", data_csv_path, exec_time, str(training_accuracy),
+        write_resultline(result_file, "gosdt_noc", data_csv_path, exec_time, str(training_accuracy),
                          str(0))
     result_file.close()
 
@@ -65,7 +124,7 @@ def run_osdt(data_csv_paths: [str], config_file_path: str, result_file_path: str
         y_train = data_train.values[:, -1]
 
         #regularization
-        lamb = 0.1
+        lamb = 0.05
         timelimit = True
 
         start = time.time()
@@ -103,6 +162,7 @@ def write_resultline(opened_result_file,
 if __name__ == '__main__':
     #test_data = ["../res/test/monk1-train_comma.csv"]
     #test_data = ["../res/test/balance-scale_comma.csv", "../res/test/compas-binary.csv", "../res/adult/bin_500.csv"]
-    test_data = ["../res/benchmarks/adult/bin_100.csv"]
-    run_gosdt(test_data, "../res/config.json", "../results/first_result_file.csv", False)
+    test_data = ["../res/benchmarks/adult/bin_200.csv"]
+    run_gosdt_withc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
+    run_gosdt_withoutc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
     run_osdt(test_data, "../res/config.json", "../results/first_result_file.csv", False)
