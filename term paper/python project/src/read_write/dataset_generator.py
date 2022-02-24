@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     # read in the original data and set a seed for consistency
     print('read in files...')
-    datasets = reader.collect_data('../../res')
+    datasets = reader.collect_data(Path('../../res'))
     random.seed(402)
 
     # create folder if not exists
@@ -47,19 +47,28 @@ if __name__ == '__main__':
                 if size > len(c_dataset.index):
                     raise AssertionError
                 outfile.write(','.join(list(c_dataset.columns.values)) + '\n')
-                for i in range(size):
+                i = 0
+                while i < size:
                     randint = randrange(len(c_dataset.index)-1)
-                    if i == size:
+                    unusable = False
+                    for entry in c_dataset.iloc[randint]:
+                        if str(entry).replace(" ", "") == '?':
+                            c_dataset.drop(index=randint, inplace=True)
+                            c_dataset.reset_index(inplace=True, drop=True)
+                            unusable = True
+                            break
+                    if unusable:
+                        continue
+                    if i == size-1:
                         outfile.write(
-                            c_dataset.iloc[randint].to_csv(index=False, header=False).replace('\n', ',').replace(' ', ''))
+                            c_dataset.iloc[randint].to_csv(index=False, header=False).replace('\n', ',').replace(' ', '')[:-1])
                     else:
                         outfile.write(
                             c_dataset.iloc[randint].to_csv(index=False, header=False).replace('\n', ',').replace(' ',
-                                                                                                               '') + '\n')
+                                                                                                               '')[:-1] + '\n')
                     c_dataset.drop(index=randint, inplace=True)
                     c_dataset.reset_index(inplace=True, drop=True)
+                    i += 1
             completion_counter += 1
             print(f'\rgenerated files: {completion_counter}/{files_to_generate}', end='')
     print('\nfinished')
-
-

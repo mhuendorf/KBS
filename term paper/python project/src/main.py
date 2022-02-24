@@ -1,8 +1,12 @@
+from pathlib import Path
+
 from read_write import reader
 import gosdt
 
+from model.GOSDT import gosdt
+
 if __name__ == '__main__':
-    data = reader.collect_data('../res')
+    data = reader.collect_data(Path('../res'))
     for name, dataset in data:
         print(name + ":")
         print(dataset)
