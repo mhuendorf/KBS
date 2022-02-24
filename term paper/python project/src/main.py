@@ -3,7 +3,7 @@ from pathlib import Path
 from read_write import reader
 import gosdt
 
-from model.GOSDT import gosdt
+#from model.GOSDT import gosdt
 
 if __name__ == '__main__':
     data = reader.collect_data(Path('../res'))
@@ -11,7 +11,7 @@ if __name__ == '__main__':
         print(name + ":")
         print(dataset)
 
-    with open("../GeneralizedOptimalSparseDecisionTrees-master/test/fixtures/binary_sepal.csv", "r") as data_file:
+    with open("../res/test/monk1-train_comma.csv", "r") as data_file:
         data = data_file.read()
 
     with open("../res/config.json", "r") as config_file:

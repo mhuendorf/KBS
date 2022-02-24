@@ -1,0 +1,12 @@
+gosdt,../res/benchmarks/adult/bin_50.csv,44.63034105300903,0.9,0
+osdt,../res/benchmarks/adult/bin_50.csv,1.0097877979278564,0.9,0
+gosdt,../res/benchmarks/adult/bin_100.csv,71.17693591117859,0.79,0
+osdt,../res/benchmarks/adult/bin_100.csv,1.0122685432434082,0.87,0
+gosdt,../res/benchmarks/adult/bin_100.csv,67.92941355705261,0.79,0
+osdt,../res/benchmarks/adult/bin_100.csv,1.0136444568634033,0.87,0
+gosdt,../res/benchmarks/adult/bin_100.csv,69.89194917678833,0.79,0
+osdt,../res/benchmarks/adult/bin_100.csv,1.0148561000823975,0.87,0
+gosdt,../res/benchmarks/adult/bin_100.csv,66.14733505249023,0.79,0
+osdt,../res/benchmarks/adult/bin_100.csv,1.0111825466156006,0.79,0
+gosdt,../res/benchmarks/adult/bin_100.csv,68.82561349868774,0.79,0
+osdt,../res/benchmarks/adult/bin_100.csv,0.02722477912902832,0.72,0

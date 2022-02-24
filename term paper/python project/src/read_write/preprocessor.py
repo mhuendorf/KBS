@@ -148,4 +148,4 @@ if __name__ == '__main__':
     for dir in dirs:
         for number in numbers:
             print(loc / dir / (str(number) + end))
-            bin_and_mask(loc / dir / (str(number) + end), loc / dir / (prefix + '_' + str(number) + end), 10)
+            bin_and_mask(loc / dir / (str(number) + end), loc / dir / (prefix + '_' + str(number) + end), 5)

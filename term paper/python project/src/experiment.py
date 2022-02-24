@@ -65,7 +65,7 @@ def run_osdt(data_csv_paths: [str], config_file_path: str, result_file_path: str
         y_train = data_train.values[:, -1]
 
         #regularization
-        lamb = 0.02
+        lamb = 0.1
         timelimit = True
 
         start = time.time()
@@ -102,6 +102,7 @@ def write_resultline(opened_result_file,
 
 if __name__ == '__main__':
     #test_data = ["../res/test/monk1-train_comma.csv"]
-    test_data = ["../res/test/balance-scale_comma.csv", "../res/test/compas-binary.csv"]
+    #test_data = ["../res/test/balance-scale_comma.csv", "../res/test/compas-binary.csv", "../res/adult/bin_500.csv"]
+    test_data = ["../res/benchmarks/adult/bin_100.csv"]
     run_gosdt(test_data, "../res/config.json", "../results/first_result_file.csv", False)
     run_osdt(test_data, "../res/config.json", "../results/first_result_file.csv", False)
