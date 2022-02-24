@@ -12,7 +12,7 @@ if __name__ == '__main__':
     #    print(name + ":")
     #    print(dataset)
 
-    dataframe = pd.DataFrame(pd.read_csv("../res/test/monk1-train_comma.csv"))
+    dataframe = pd.DataFrame(pd.read_csv("../res/benchmarks/adult/50.csv"))
 
     X = dataframe[dataframe.columns[:-1]]
     y = dataframe[dataframe.columns[-1:]]

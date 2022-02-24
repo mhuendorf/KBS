@@ -8,12 +8,13 @@ import pandas as pd
 #from model.GOSDT import gosdt
 
 if __name__ == '__main__':
+    res_file = "../res/benchmarks/adult/50.csv"
     data = reader.collect_data(Path('../res'))
     for name, dataset in data:
         print(name + ":")
         print(dataset)
 
-    with open("../res/test/monk1-train_comma.csv", "r") as data_file:
+    with open(res_file, "r") as data_file:
         data = data_file.read()
 
     with open("../res/config.json", "r") as config_file:
@@ -34,8 +35,7 @@ if __name__ == '__main__':
     print("Iterations: ", gosdt.iterations())
     print("Graph Size: ", gosdt.size())
 
-
-    dataframe = pd.DataFrame(pd.read_csv("../res/test/monk1-train_comma.csv"))
+    dataframe = pd.DataFrame(pd.read_csv(res_file))
 
     X = dataframe[dataframe.columns[:-1]]
     y = dataframe[dataframe.columns[-1:]]
@@ -59,3 +59,4 @@ if __name__ == '__main__':
     training_accuracy = model.score(X, y)
     print("Training Accuracy: {}".format(training_accuracy))
     print(model.tree)
+    print(model.latex())

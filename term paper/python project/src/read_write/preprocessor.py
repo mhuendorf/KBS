@@ -2,9 +2,7 @@ from pathlib import Path
 import pandas as pd
 import math
 import warnings
-from pandas.api.types import is_string_dtype
-from pandas.api.types import is_numeric_dtype
-from pandas.api.types import is_bool_dtype
+from pandas.api.types import is_string_dtype, is_numeric_dtype, is_bool_dtype
 
 
 def handle_numeric(orig_df: pd.DataFrame, new_df: pd.DataFrame, column: str, num_bins: int) -> pd.DataFrame:
