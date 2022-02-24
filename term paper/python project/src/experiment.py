@@ -3,6 +3,7 @@
 import osdt
 from pyids.algorithms.ids_classifier import mine_CARs
 from pyids.algorithms.ids import IDS
+from pyids.model_selection.coordinate_ascent import CoordinateAscent
 import os.path
 # import sys
 # sys.path.append('../GeneralizedOptimalSparseDecisionTrees-master/python')
@@ -64,7 +65,6 @@ def run_gosdt_withc(data_csv_paths: [str], config_file_path: str, result_file_pa
         exec_time = str(end - start)
 
         # results
-        # TODO Write Function for writing a line of results into resultfile
         prediction = model.predict(X)
         training_accuracy = model.score(X, y)
         # write to file
@@ -111,7 +111,6 @@ def run_gosdt_withoutc(data_csv_paths: [str], config_file_path: str, result_file
         exec_time = str(end - start)
 
         # results
-        # TODO Write Function for writing a line of results into resultfile
         prediction = model.predict(X)
         training_accuracy = model.score(X, y)
         # write to file
@@ -148,15 +147,19 @@ def run_pyids(data_csv_paths: [str], config_file_path: str, result_file_path: st
     # open file
     result_file = open_resultfile(result_file_path, reset_file)
     for data_csv_path in data_csv_paths:
+        start = time.time()
         data = pd.read_csv(data_csv_path)
-        cars = mine_CARs(data,50)
+        cars = mine_CARs(data,rule_cutoff=20)
         lambda_array = [1,1,1,1,1,1,1]
         quant_dataframe = QuantitativeDataFrame(data)
         quant_cars = list(map(QuantitativeCAR, cars))
-        ids = IDS()
+        ids = IDS(algorithm="SLS") #or DLS DUSM RUSM
         ids.fit(quant_dataframe=quant_dataframe, class_association_rules=cars, lambda_array=lambda_array)
         training_accuracy = ids.score(quant_dataframe)
-        #TODO WRITE TO FILE
+        end = time.time()
+        exec_time = str(end - start)
+        write_resultline(result_file, "ids", data_csv_path, exec_time, str(training_accuracy),
+                         str(0))
     result_file.close()
 
 def open_resultfile(result_file_path: str, reset_file: bool = False):
@@ -181,7 +184,8 @@ def write_resultline(opened_result_file,
 if __name__ == '__main__':
     #test_data = ["../res/test/monk1-train_comma.csv"]
     #test_data = ["../res/test/balance-scale_comma.csv", "../res/test/compas-binary.csv", "../res/adult/bin_500.csv"]
-    test_data = ["../res/benchmarks/adult/bin_200.csv"]
+    test_data = ["../res/benchmarks/adult/bin_1000.csv"]
     run_gosdt_withc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
     run_gosdt_withoutc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
     run_osdt(test_data, "../res/config.json", "../results/first_result_file.csv", False)
+    run_pyids(test_data, "../res/config.json", "../results/first_result_file.csv", False)
