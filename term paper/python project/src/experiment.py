@@ -127,8 +127,8 @@ def run_osdt(data_csv_paths: [str], config_file_path: str, result_file_path: str
         y_train = data_train.values[:, -1]
 
         #regularization
-        lamb = 0.05
-        timelimit = True
+        lamb = 0.00001
+        timelimit = False
 
         start = time.time()
         # OSDT
@@ -149,15 +149,48 @@ def run_pyids(data_csv_paths: [str], config_file_path: str, result_file_path: st
     for data_csv_path in data_csv_paths:
         start = time.time()
         data = pd.read_csv(data_csv_path)
-        cars = mine_CARs(data,rule_cutoff=20)
-        lambda_array = [1,1,1,1,1,1,1]
+        cars = mine_CARs(data, rule_cutoff=50, sample=False)
+        #gl = 20.489711934156375
+        gl = 1
+        lambda_array = [gl,gl,gl,gl,gl,gl,gl]
         quant_dataframe = QuantitativeDataFrame(data)
         quant_cars = list(map(QuantitativeCAR, cars))
-        ids = IDS(algorithm="SLS") #or DLS DUSM RUSM
+        #ids = IDS(algorithm="RUSM") #or SLS DLS DUSM RUSM RS
+
+        """
+        def fmax(lambda_dict):
+            print(lambda_dict)
+            ids = IDS(algorithm="SLS")
+            ids.fit(class_association_rules=cars, quant_dataframe=quant_dataframe, lambda_array=list(lambda_dict.values()))
+            auc = ids.score_auc(quant_dataframe)
+            print(auc)
+            return auc
+
+        coord_asc = CoordinateAscent(
+            func=fmax,
+            func_args_ranges=dict(
+                l1=(1, 1000),
+                l2=(1, 1000),
+                l3=(1, 1000),
+                l4=(1, 1000),
+                l5=(1, 1000),
+                l6=(1, 1000),
+                l7=(1, 1000)
+            ),
+            ternary_search_precision=50,
+            max_iterations=3
+        )
+
+        best_lambdas = coord_asc.fit()
+        """
+        ids = IDS(algorithm="SLS")  # or DLS DUSM RUSM
         ids.fit(quant_dataframe=quant_dataframe, class_association_rules=cars, lambda_array=lambda_array)
+
         training_accuracy = ids.score(quant_dataframe)
+        print(ids.score_interpretability_metrics(quant_dataframe=quant_dataframe))
         end = time.time()
         exec_time = str(end - start)
+        print(ids.clf.rules)
         write_resultline(result_file, "ids", data_csv_path, exec_time, str(training_accuracy),
                          str(0))
     result_file.close()
@@ -185,7 +218,9 @@ if __name__ == '__main__':
     #test_data = ["../res/test/monk1-train_comma.csv"]
     #test_data = ["../res/test/balance-scale_comma.csv", "../res/test/compas-binary.csv", "../res/adult/bin_500.csv"]
     test_data = ["../res/benchmarks/adult/bin_1000.csv"]
-    run_gosdt_withc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
-    run_gosdt_withoutc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
-    run_osdt(test_data, "../res/config.json", "../results/first_result_file.csv", False)
+    #test_data = ["../res/benchmarks/spambase/100.csv"]
+    #test_data = ["../res/mushroom/agaricus-lepiota.data"]
+    #run_gosdt_withc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
+    #run_gosdt_withoutc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
+    #run_osdt(test_data, "../res/config.json", "../results/first_result_file.csv", False)
     run_pyids(test_data, "../res/config.json", "../results/first_result_file.csv", False)
