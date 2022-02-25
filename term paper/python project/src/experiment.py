@@ -15,8 +15,9 @@ from pyarc.qcba.data_structures import (
 QuantitativeDataFrame,
 QuantitativeCAR
 )
+import numpy as np
 
-def run_gosdt_withc(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
+def run_gosdt_withc(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False, regularization: float = 0.08):
     """
     Executes the GOSDT Algorithm on the given Datasets
     Args:
@@ -32,7 +33,7 @@ def run_gosdt_withc(data_csv_paths: [str], config_file_path: str, result_file_pa
 
     # read and apply config
     with open(config_file_path, "r") as config_file:
-        hyperparameters = config_file.read()
+        hyperparameters = config_file.read().replace("\"regularization\": 0.08", "\"regularization\": " + str(regularization))
     model = GOSDT(hyperparameters)
     gosdt.configure(hyperparameters)
 
@@ -68,11 +69,11 @@ def run_gosdt_withc(data_csv_paths: [str], config_file_path: str, result_file_pa
         prediction = model.predict(X)
         training_accuracy = model.score(X, y)
         # write to file
-        write_resultline(result_file, "gosdt_c", data_csv_path, exec_time, str(training_accuracy),
+        write_resultline(result_file, "gosdt_c_r" + str(regularization), data_csv_path, exec_time, str(training_accuracy),
                          str(0))
     result_file.close()
 
-def run_gosdt_withoutc(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
+def run_gosdt_withoutc(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False, regularization: float = 0.08):
     """
     Executes the GOSDT Algorithm on the given Datasets
     Args:
@@ -88,7 +89,7 @@ def run_gosdt_withoutc(data_csv_paths: [str], config_file_path: str, result_file
 
     # read and apply config
     with open(config_file_path, "r") as config_file:
-        hyperparameters = config_file.read()
+        hyperparameters = config_file.read().replace("\"regularization\": 0.08", "\"regularization\": " + str(regularization))
     model = GOSDT(hyperparameters)
 
     # write to result file
@@ -114,11 +115,11 @@ def run_gosdt_withoutc(data_csv_paths: [str], config_file_path: str, result_file
         prediction = model.predict(X)
         training_accuracy = model.score(X, y)
         # write to file
-        write_resultline(result_file, "gosdt_noc", data_csv_path, exec_time, str(training_accuracy),
+        write_resultline(result_file, "gosdt_noc_r" + str(regularization), data_csv_path, exec_time, str(training_accuracy),
                          str(0))
     result_file.close()
 
-def run_osdt(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
+def run_osdt(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False, regularization: float = 0.001):
     # open file
     result_file = open_resultfile(result_file_path, reset_file)
     for data_csv_path in data_csv_paths:
@@ -127,7 +128,7 @@ def run_osdt(data_csv_paths: [str], config_file_path: str, result_file_path: str
         y_train = data_train.values[:, -1]
 
         #regularization
-        lamb = 0.00001
+        lamb = regularization
         timelimit = False
 
         start = time.time()
@@ -139,11 +140,11 @@ def run_osdt(data_csv_paths: [str], config_file_path: str, result_file_path: str
 
         #results
         _, training_accuracy2 = osdt.predict(leaves_c, prediction_c, dic, X_train, y_train, best_is_cart, clf)
-        write_resultline(result_file, "osdt", data_csv_path, exec_time, str(training_accuracy2),
+        write_resultline(result_file, "osdt_r" + str(regularization), data_csv_path, exec_time, str(training_accuracy2),
                          str(0))
     result_file.close()
 
-def run_pyids(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False):
+def run_pyids(data_csv_paths: [str], config_file_path: str, result_file_path: str, reset_file: bool = False, alg_type: str = "SLS"):
     # open file
     result_file = open_resultfile(result_file_path, reset_file)
     for data_csv_path in data_csv_paths:
@@ -155,7 +156,6 @@ def run_pyids(data_csv_paths: [str], config_file_path: str, result_file_path: st
         lambda_array = [gl,gl,gl,gl,gl,gl,gl]
         quant_dataframe = QuantitativeDataFrame(data)
         quant_cars = list(map(QuantitativeCAR, cars))
-        #ids = IDS(algorithm="RUSM") #or SLS DLS DUSM RUSM RS
 
         """
         def fmax(lambda_dict):
@@ -183,7 +183,7 @@ def run_pyids(data_csv_paths: [str], config_file_path: str, result_file_path: st
 
         best_lambdas = coord_asc.fit()
         """
-        ids = IDS(algorithm="SLS")  # or DLS DUSM RUSM
+        ids = IDS(algorithm=alg_type)  # or SLS DLS DUSM RUSM
         ids.fit(quant_dataframe=quant_dataframe, class_association_rules=cars, lambda_array=lambda_array)
 
         training_accuracy = ids.score(quant_dataframe)
@@ -191,7 +191,7 @@ def run_pyids(data_csv_paths: [str], config_file_path: str, result_file_path: st
         end = time.time()
         exec_time = str(end - start)
         print(ids.clf.rules)
-        write_resultline(result_file, "ids", data_csv_path, exec_time, str(training_accuracy),
+        write_resultline(result_file, "ids_" + alg_type, data_csv_path, exec_time, str(training_accuracy),
                          str(0))
     result_file.close()
 
@@ -214,13 +214,26 @@ def write_resultline(opened_result_file,
                      algorithm_name: str, dataset_path: str, exec_time: str, train_acc: str, test_acc: str):
     opened_result_file.write(algorithm_name + "," + dataset_path + "," + exec_time + "," + train_acc + "," + test_acc + "\n")
 
+def test_regularization(data_csv_paths: [str], result_file_path: str, reg_begin: float, reg_end: float, reg_stepsize: float,
+                               run_alg_func:callable, reset_file: bool = False):
+    result_file = open_resultfile(result_file_path, reset_file)
+    for reg in np.arange(reg_begin, reg_end, reg_stepsize)[::-1]:
+        run_alg_func(data_csv_paths,"../res/config.json","../results/reg_test.csv",reset_file,reg)
+    result_file.close()
+
 if __name__ == '__main__':
     #test_data = ["../res/test/monk1-train_comma.csv"]
     #test_data = ["../res/test/balance-scale_comma.csv", "../res/test/compas-binary.csv", "../res/adult/bin_500.csv"]
     test_data = ["../res/benchmarks/adult/bin_1000.csv"]
     #test_data = ["../res/benchmarks/spambase/100.csv"]
     #test_data = ["../res/mushroom/agaricus-lepiota.data"]
-    #run_gosdt_withc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
-    #run_gosdt_withoutc(test_data, "../res/config.json", "../results/first_result_file.csv", False)
-    #run_osdt(test_data, "../res/config.json", "../results/first_result_file.csv", False)
-    run_pyids(test_data, "../res/config.json", "../results/first_result_file.csv", False)
+    #run_gosdt_withc(test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
+    #run_gosdt_withoutc(test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
+    #run_gosdt_withc(test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.08)
+    #run_gosdt_withoutc(test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.08)
+    #run_osdt(test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
+    #run_osdt(test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.00001)
+    #run_pyids(test_data, "../res/config.json", "../results/first_result_file.csv", False)
+    test_regularization(test_data, "../res/config.json", 0.08, 0.1, 0.005, run_gosdt_withc,False)
+    test_regularization(test_data, "../res/config.json", 0.08, 0.1, 0.005, run_gosdt_withoutc, False)
+    test_regularization(test_data, "../res/config.json", 0.08, 0.1, 0.005, run_osdt, False)
