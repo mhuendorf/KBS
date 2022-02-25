@@ -8,13 +8,18 @@ import pandas as pd
 #from model.GOSDT import gosdt
 
 if __name__ == '__main__':
-    res_file = "../res/benchmarks/adult/50.csv"
+    path = Path("../res/benchmarks")
+    subject = Path('adult')
+    size = 50
+    binary_file = True
+    train_file = (path / 'train' / subject / (('bin_' if binary_file else '') + str(size))).with_suffix('.csv')
+    test_file = (path / 'test' / subject / (('bin_' if binary_file else '') + str(size))).with_suffix('.csv')
     data = reader.collect_data(Path('../res'))
     for name, dataset in data:
         print(name + ":")
         print(dataset)
 
-    with open(res_file, "r") as data_file:
+    with open(train_file, "r") as data_file:
         data = data_file.read()
 
     with open("../res/config.json", "r") as config_file:
@@ -35,7 +40,7 @@ if __name__ == '__main__':
     print("Iterations: ", gosdt.iterations())
     print("Graph Size: ", gosdt.size())
 
-    dataframe = pd.DataFrame(pd.read_csv(res_file))
+    dataframe = pd.DataFrame(pd.read_csv(test_file))
 
     X = dataframe[dataframe.columns[:-1]]
     y = dataframe[dataframe.columns[-1:]]
@@ -55,8 +60,16 @@ if __name__ == '__main__':
     #model.fit(X, y)
     print("Execution Time: {}".format(model.time))
 
-    prediction = model.predict(X)
+    model.predict(X)
+    test_accuracy = model.score(X, y)
+    print("Test Accuracy: {}".format(test_accuracy))
+
+    dataframe = pd.DataFrame(pd.read_csv(train_file))
+    X = dataframe[dataframe.columns[:-1]]
+    y = dataframe[dataframe.columns[-1:]]
+    model.predict(X)
     training_accuracy = model.score(X, y)
     print("Training Accuracy: {}".format(training_accuracy))
+
     print(model.tree)
     print(model.latex())
