@@ -358,5 +358,5 @@ if __name__ == '__main__':
     #run_osdt(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.00001)
     #run_pyids(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False)
     #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtc.csv", 0.03, 0.2, 1.1, run_gosdt_withc, reset_file=True, factor=True)
-    test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtnoc.csv", 0.03, 0.2, 1.1, run_gosdt_withoutc, reset_file=True, factor=True)
+    test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtnoc.csv", 0.023, 0.2, 1.1, run_gosdt_withoutc, reset_file=True, factor=True)
     #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test.csv", 0.00000001, 0.2, 1.5, run_osdt, reset_file=True, factor=True)
