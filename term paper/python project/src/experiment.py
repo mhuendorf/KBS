@@ -333,8 +333,10 @@ def test_regularization(data_csv_paths: [str], test_csv_paths: [str], config_fil
 if __name__ == '__main__':
     #test_data = ["../res/test/monk1-train_comma.csv"]
     #test_data = ["../res/test/balance-scale_comma.csv", "../res/test/compas-binary.csv", "../res/adult/bin_500.csv"]
-    train_data = ["../res/benchmarks/train/adult/bin_1000.csv"]
-    test_data = ["../res/benchmarks/test/adult/bin_1000.csv"]
+    #train_data = ["../res/benchmarks/train/adult/bin_1000.csv"]
+    #test_data = ["../res/benchmarks/test/adult/bin_1000.csv"]
+    train_data = ["../res/benchmarks/train/kr-vs-kp/bin_1000.csv"]
+    test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
     #test_data = ["../res/benchmarks/spambase/100.csv"]
     #test_data = ["../res/mushroom/agaricus-lepiota.data"]
     #run_gosdt_withc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
@@ -347,4 +349,4 @@ if __name__ == '__main__':
     #run_pyids(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False)
     #test_regularization(train_data,test_data, "../results/reg_test.csv", "../res/config.json", 0.08, 0.1, 0.005, run_gosdt_withc,False)
     #test_regularization(train_data,test_data, "../results/reg_test.csv", "../res/config.json", 0.08, 0.1, 0.005, run_gosdt_withoutc, False)
-    test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test.csv", 0.00000001, 0.2, 2, run_osdt, reset_file=True, factor=True)
+    test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test.csv", 0.00000001, 0.2, 1.5, run_osdt, reset_file=True, factor=True)
