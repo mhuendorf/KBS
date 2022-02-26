@@ -102,8 +102,13 @@ def run_gosdt_withoutc(data_csv_paths: [str], test_csv_paths: [str], config_file
     result_file = open_resultfile(result_file_path, reset_file)
 
     # read and apply config
-    with open(config_file_path, "r") as config_file:
-        hyperparameters = config_file.read().replace("\"regularization\": 0.08", "\"regularization\": " + str(regularization))
+    #with open(config_file_path, "r") as config_file:
+        #hyperparameters = config_file.read().replace("\"regularization\": 0.08", "\"regularization\": " + str(regularization))
+    hyperparameters = {
+        "regularization": regularization,
+        "time_limit": 0,
+        "verbose": True,
+    }
     model = GOSDT(hyperparameters)
 
     # write to result file
@@ -347,6 +352,6 @@ if __name__ == '__main__':
     #run_osdt(train_data, test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.001)
     #run_osdt(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.00001)
     #run_pyids(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False)
-    #test_regularization(train_data,test_data, "../results/reg_test.csv", "../res/config.json", 0.08, 0.1, 0.005, run_gosdt_withc,False)
-    #test_regularization(train_data,test_data, "../results/reg_test.csv", "../res/config.json", 0.08, 0.1, 0.005, run_gosdt_withoutc, False)
-    test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test.csv", 0.00000001, 0.2, 1.5, run_osdt, reset_file=True, factor=True)
+    test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtc.csv", 0.023, 0.2, 1.1, run_gosdt_withc, reset_file=True, factor=True)
+    test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtnoc.csv", 0.023, 0.2, 1.1, run_gosdt_withoutc, reset_file=True, factor=True)
+    #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test.csv", 0.00000001, 0.2, 1.5, run_osdt, reset_file=True, factor=True)
