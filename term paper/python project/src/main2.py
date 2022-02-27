@@ -12,6 +12,10 @@ if __name__ == '__main__':
     #    print(name + ":")
     #    print(dataset)
 
+    with open("../res/config.json", "r") as config_file:
+        config = config_file.read()
+    gosdt.configure(config)
+
     dataframe = pd.DataFrame(pd.read_csv("../res/benchmarks/adult/50.csv"))
 
     X = dataframe[dataframe.columns[:-1]]
