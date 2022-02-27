@@ -187,8 +187,8 @@ def generate_train_and_test_files(sizes=None):
                         bin_test_set.drop(index=index, inplace=True)
             test_set.reset_index(inplace=True, drop=True)
             bin_test_set.reset_index(inplace=True, drop=True)
-            test_set.to_csv(test_full_path, index_label=False)
-            bin_test_set.to_csv(bin_test_full_path, index_label=False)
+            test_set.to_csv(test_full_path, index=False)
+            bin_test_set.to_csv(bin_test_full_path, index=False)
             completion_counter += 1
     print(f'\rgenerated files: {completion_counter}/{files_to_generate}: now generating {outfile.name}', end='')
     print('\nfinished')
@@ -196,8 +196,5 @@ def generate_train_and_test_files(sizes=None):
 
 if __name__ == '__main__':
     set_sizes = [50, 100, 200, 500, 1000]
-    #create_binary_csv(5)
+    create_binary_csv(5)
     generate_train_and_test_files(set_sizes)
-
-
-
