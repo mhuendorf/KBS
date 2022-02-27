@@ -110,8 +110,8 @@ def generate_train_and_test_files(sizes=None):
                                              f'entrys ({size / 2} entrys needed) and '
                                              f'the second class value {c_dataset1.iloc[0][-1]} has {len(c_dataset2.index)} '
                                              f'entrys ({size / 2} entrys needed)')
-                    outfile.write(','.join(list(c_dataset1.columns.values)) + '\n')
-                    bin_outfile.write(','.join(list(c_bin_dataset1.columns.values)) + '\n')
+                    outfile.write((','.join(list(c_dataset1.columns.values))).replace(" ", "") + '\n')
+                    bin_outfile.write((','.join(list(c_bin_dataset1.columns.values))).replace(" ", "") + '\n')
 
                     i = 0
                     class_val_1 = True
@@ -179,16 +179,40 @@ def generate_train_and_test_files(sizes=None):
             test_set = pd.concat([c_dataset1, c_dataset2], ignore_index=True)
             bin_test_set = pd.concat([c_bin_dataset1, c_bin_dataset2], ignore_index=True)
 
+            """for index, row in test_set.iterrows():
+                ifor_val = something
+                if < condition >:
+                    ifor_val = something_else
+                df.set_value(i, 'ifor', ifor_val)"""
+
+
             # remove all undefined cases
             for index, row in test_set.iterrows():
+                j = 0
                 for value in row:
-                    if value == "?":
+                    c_val = str(value).replace(' ', '')
+                    if c_val == "?":
                         test_set.drop(index=index, inplace=True)
                         bin_test_set.drop(index=index, inplace=True)
+                        break
+                    else:
+                        test_set.at[index, test_set.columns[j]] = c_val
+                    j += 1
+            new_columns = {}
+            for column in test_set.columns:
+                new_columns[column] = str (column).replace(' ', '')
+            test_set.rename(columns=new_columns)
+
+            new_columns = {}
+            for column in bin_test_set.columns:
+                new_columns[column] = str (column).replace(' ', '')
+            bin_test_set.rename(columns=new_columns)
+
             test_set.reset_index(inplace=True, drop=True)
             bin_test_set.reset_index(inplace=True, drop=True)
             test_set.to_csv(test_full_path, index=False)
             bin_test_set.to_csv(bin_test_full_path, index=False)
+
             completion_counter += 1
     print(f'\rgenerated files: {completion_counter}/{files_to_generate}: now generating {outfile.name}', end='')
     print('\nfinished')
