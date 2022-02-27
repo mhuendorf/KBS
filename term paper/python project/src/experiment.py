@@ -343,25 +343,162 @@ def test_regularization(data_csv_paths: [str], test_csv_paths: [str], config_fil
             run_alg_func(data_csv_paths, test_csv_paths,config_file_path,result_file_path,reset_file=False,regularization=reg)
     result_file.close()
 
+def testreg_osdt():
+    """
+    Runs the tests for regularization for osdt
+    Returns: Nothing
+
+    """
+    train_data = ["../res/benchmarks/train/kr-vs-kp/bin_1000.csv"]
+    test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
+    test_regularization(train_data, test_data, "../res/config.json", "../results/reg_test_osdt.csv", 0.00000001, 0.2, 1.5,
+                        run_osdt, reset_file=True, factor=True)
+
+def testreg_gosdt():
+    """
+    Runs the tests for regularization for gosdt
+    Returns: nothing
+
+    """
+    train_data = ["../res/benchmarks/train/kr-vs-kp/bin_1000.csv"]
+    test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
+    test_regularization(train_data, test_data, "../res/config.json", "../results/reg_test_osdt.csv", 00.0023, 0.2, 1.1,
+                        run_gosdt_withc, reset_file=True, factor=True)
+
+def testpyIds():
+    """
+    Runs the tests for the different IDS Algorithms
+    Returns: Nothing
+
+    """
+    train_data = ["../res/benchmarks/train/agaricus-lepiota-Reordered/1000.csv",
+                  "../res/benchmarks/train/kr-vs-kp/1000.csv",
+                  "../res/benchmarks/train/adult/1000.csv",
+                  "../res/benchmarks/train/spambase/1000.csv",
+                  "../res/benchmarks/train/dota2TrainReordered/1000.csv"]
+    test_data = ["../res/benchmarks/test/agaricus-lepiota-Reordered/1000.csv",
+                 "../res/benchmarks/test/kr-vs-kp/1000.csv",
+                 "../res/benchmarks/test/adult/1000.csv",
+                 "../res/benchmarks/test/spambase/1000.csv",
+                 "../res/benchmarks/test/dota2TrainReordered/1000.csv"]
+
+    run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test.csv", False, alg_type="SLS")
+    run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test.csv", False, alg_type="DLS")
+    run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test.csv", False, alg_type="RUSM")
+    run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test.csv", False, alg_type="DUSM")
+
+def testpyIds_bin():
+    """
+    Runs the tests for the different IDS Algorithms
+    Returns: Nothing
+
+    """
+    train_data = ["../res/benchmarks/train/agaricus-lepiota-Reordered/bin_1000.csv",
+                  "../res/benchmarks/train/kr-vs-kp/bin_1000.csv",
+                  "../res/benchmarks/train/adult/bin_1000.csv",
+                  "../res/benchmarks/train/spambase/bin_1000.csv",
+                  "../res/benchmarks/train/dota2TrainReordered/bin_1000.csv"]
+    test_data = ["../res/benchmarks/test/agaricus-lepiota-Reordered/bin_1000.csv",
+                 "../res/benchmarks/test/kr-vs-kp/bin_1000.csv",
+                 "../res/benchmarks/test/adult/bin_1000.csv",
+                 "../res/benchmarks/test/spambase/bin_1000.csv",
+                 "../res/benchmarks/test/dota2TrainReordered/bin_1000.csv"]
+
+    run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_bin.csv", False, alg_type="SLS")
+    run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_bin.csv", False, alg_type="DLS")
+    run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_bin.csv", False, alg_type="RUSM")
+    run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_bin.csv", False, alg_type="DUSM")
+
+def test_trainsizes():
+    resultfile: str = "../results/trainsizes_test.csv"
+
+    numbers:[str] = [50, 100, 200, 500, 1000]
+
+    for i in range(5):
+        train_data = ["../res/benchmarks/train/agaricus-lepiota-Reordered/bin_"+str(numbers[i])+".csv"]
+        test_data = ["../res/benchmarks/test/agaricus-lepiota-Reordered/bin_"+str(numbers[i])+".csv"]
+        train_datap = ["../res/benchmarks/train/agaricus-lepiota-Reordered/"+str(numbers[i])+".csv"]
+        test_datap = ["../res/benchmarks/test/agaricus-lepiota-Reordered/"+str(numbers[i])+".csv"]
+
+        run_gosdt_withoutc(train_data, test_data, "../res/config.json", resultfile, False, 0.005)
+        run_osdt(train_data, test_data, "../res/config.json", resultfile, False, 0.005)
+        run_pyids(train_datap, test_datap, "../res/config.json", resultfile, False, alg_type="DLS")
+
+def test_all():
+    numbers: [str] = [50, 100, 200, 500, 1000]
+    datasets: [str] = ["adult","agaricus-lepiota-Reordered","dota2TrainReordered","kr-vs-kp","spambase"]
+
+    trainsets:[str] = []
+    testsets:[str] = []
+    trainsetsp: [str] = []
+    testsetsp: [str] = []
+    gosdt_lambdas: [float] = []
+
+    for i in range(5):
+        for dataset in datasets:
+            trainsets.append(["../res/benchmarks/train/" + dataset + "/bin_" + str(numbers[i]) + ".csv"])
+            testsets.append(["../res/benchmarks/test/" + dataset + "/bin_" + str(numbers[i]) + ".csv"])
+            trainsetsp.append(["../res/benchmarks/train/" + dataset + "/" + str(numbers[i]) + ".csv"])
+            testsetsp.append(["../res/benchmarks/test/" + dataset + "/" + str(numbers[i]) + ".csv"])
+            if(dataset == "adult"):
+                gosdt_lambdas.append(0.07)
+            if (dataset == "agaricus-lepiota-Reordered"):
+                gosdt_lambdas.append(0.005)
+            if (dataset == "dota2TrainReordered"):
+                gosdt_lambdas.append(0.18)
+            if (dataset == "kr-vs-kp"):
+                gosdt_lambdas.append(0.05)
+            if (dataset == "spambase"):
+                gosdt_lambdas.append(0.055)
+
+    osdt_file :str  = "../results/alltests_osdt.csv"
+    gosdt_file: str = "../results/alltests_gosdt.csv"
+    pyids_file: str = "../results/alltests_pyids.csv"
+
+    for i in range(len(trainsets)):
+        run_osdt(trainsets[i], testsets[i], "../res/config.json", osdt_file, False, 0.005)
+        run_gosdt_withoutc(trainsets[i], testsets[i], "../res/config.json", gosdt_file, False, gosdt_lambdas[i])
+        run_pyids(trainsets[i], testsets[i], "../res/config.json", pyids_file, False, alg_type="DLS")
+
+
+
+
 if __name__ == '__main__':
+    #test_trainsizes()
+    test_all()
     #test_data = ["../res/test/monk1-train_comma.csv"]
     #test_data = ["../res/test/balance-scale_comma.csv", "../res/test/compas-binary.csv", "../res/adult/bin_500.csv"]
-    #train_data = ["../res/benchmarks/train/adult/bin_1000.csv"]
-    #test_data = ["../res/benchmarks/test/adult/bin_1000.csv"]
+    #train_data = ["../res/benchmarks/train/adult/1000.csv"]
+    #test_data = ["../res/benchmarks/test/adult/1000.csv"]
     #train_data = ["../res/benchmarks/train/kr-vs-kp/bin_1000.csv"]
     #test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
     #train_data = ["../res/benchmarks/train/dota2TrainReordered/bin_1000.csv"]
     #test_data = ["../res/benchmarks/test/dota2TrainReordered/bin_1000.csv"]
     """
-    train_data = ["../res/benchmarks/train/adult/1000.csv",
+    train_data = ["../res/benchmarks/train/agaricus-lepiota-Reordered/1000.csv",
+                  "../res/benchmarks/train/kr-vs-kp/1000.csv",
+                  "../res/benchmarks/train/adult/1000.csv",
                   "../res/benchmarks/train/spambase/1000.csv",
                   "../res/benchmarks/train/dota2TrainReordered/1000.csv"]
-    test_data = ["../res/benchmarks/test/adult/1000.csv",
+    test_data = ["../res/benchmarks/test/agaricus-lepiota-Reordered/1000.csv",
+                 "../res/benchmarks/test/kr-vs-kp/1000.csv",
+                 "../res/benchmarks/test/adult/1000.csv",
                  "../res/benchmarks/test/spambase/1000.csv",
                  "../res/benchmarks/test/dota2TrainReordered/1000.csv"]
+    
+    train_data = ["../res/benchmarks/train/agaricus-lepiota-Reordered/bin_1000.csv",
+                  "../res/benchmarks/train/kr-vs-kp/bin_1000.csv",
+                  "../res/benchmarks/train/adult/bin_1000.csv",
+                  "../res/benchmarks/train/spambase/bin_1000.csv",
+                  "../res/benchmarks/train/dota2TrainReordered/bin_1000.csv"]
+    test_data = ["../res/benchmarks/test/agaricus-lepiota-Reordered/bin_1000.csv",
+                 "../res/benchmarks/test/kr-vs-kp/bin_1000.csv",
+                 "../res/benchmarks/test/adult/bin_1000.csv",
+                 "../res/benchmarks/test/spambase/bin_1000.csv",
+                 "../res/benchmarks/test/dota2TrainReordered/bin_1000.csv"]
                  """
-    train_data = ["../res/benchmarks/train/adult/1000.csv"]
-    test_data = ["../res/benchmarks/test/adult/100.csv"]
+    #train_data = ["../res/benchmarks/train/adult/1000.csv"]
+    #test_data = ["../res/benchmarks/test/adult/1000.csv"]
     #train_data = ["../res/benchmarks/train/kr-vs-kp/bin_1000.csv"]
     #test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
     #train_data = ["../res/benchmarks/train/adult/bin_1000.csv"]
@@ -371,12 +508,12 @@ if __name__ == '__main__':
     #run_gosdt_withc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.08)
     #run_gosdt_withoutc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.005)
     #run_osdt(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
-    run_osdt(train_data, test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.005)
+    #run_osdt(train_data, test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.005)
     #run_osdt(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.00001)
-    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_sls.csv", False, alg_type="SLS")
-    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_sls.csv", False, alg_type="DLS")
-    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_sls.csv", False, alg_type="RUSM")
-    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_sls.csv", False, alg_type="DUSM")
+    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test2.csv", False, alg_type="SLS")
+    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test2.csv", False, alg_type="DLS")
+    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test2.csv", False, alg_type="RUSM")
+    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test2.csv", False, alg_type="DUSM")
     #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtc.csv", 0.03, 0.2, 1.1, run_gosdt_withc, reset_file=True, factor=True)
     #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtnoc_adult.csv", 0.0023, 0.2, 1.1, run_gosdt_withoutc, reset_file=True, factor=True)
     #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test.csv", 0.00000001, 0.2, 1.5, run_osdt, reset_file=True, factor=True)
