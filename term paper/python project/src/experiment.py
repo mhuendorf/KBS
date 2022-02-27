@@ -352,17 +352,31 @@ if __name__ == '__main__':
     #test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
     #train_data = ["../res/benchmarks/train/dota2TrainReordered/bin_1000.csv"]
     #test_data = ["../res/benchmarks/test/dota2TrainReordered/bin_1000.csv"]
-    train_data = ["../res/benchmarks/train/spambase/bin_1000.csv"]
-    test_data = ["../res/benchmarks/test/spambase/bin_100.csv"]
-    #test_data = ["../res/mushroom/agaricus-lepiota.data"]
+    """
+    train_data = ["../res/benchmarks/train/adult/1000.csv",
+                  "../res/benchmarks/train/spambase/1000.csv",
+                  "../res/benchmarks/train/dota2TrainReordered/1000.csv"]
+    test_data = ["../res/benchmarks/test/adult/1000.csv",
+                 "../res/benchmarks/test/spambase/1000.csv",
+                 "../res/benchmarks/test/dota2TrainReordered/1000.csv"]
+                 """
+    train_data = ["../res/benchmarks/train/adult/1000.csv"]
+    test_data = ["../res/benchmarks/test/adult/100.csv"]
+    #train_data = ["../res/benchmarks/train/kr-vs-kp/bin_1000.csv"]
+    #test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
+    #train_data = ["../res/benchmarks/train/adult/bin_1000.csv"]
+    #test_data = ["../res/benchmarks/test/adult/bin_1000.csv"]
     #run_gosdt_withc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
     #run_gosdt_withoutc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
     #run_gosdt_withc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.08)
-    run_gosdt_withoutc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.055)
+    #run_gosdt_withoutc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.005)
     #run_osdt(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
-    #run_osdt(train_data, test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.005)
+    run_osdt(train_data, test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.005)
     #run_osdt(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.00001)
-    #run_pyids(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False)
+    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_sls.csv", False, alg_type="SLS")
+    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_sls.csv", False, alg_type="DLS")
+    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_sls.csv", False, alg_type="RUSM")
+    #run_pyids(train_data, test_data, "../res/config.json", "../results/pyids_test_sls.csv", False, alg_type="DUSM")
     #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtc.csv", 0.03, 0.2, 1.1, run_gosdt_withc, reset_file=True, factor=True)
-    #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtnoc_spam.csv", 0.023, 0.2, 1.1, run_gosdt_withoutc, reset_file=True, factor=True)
+    #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test_gosdtnoc_adult.csv", 0.0023, 0.2, 1.1, run_gosdt_withoutc, reset_file=True, factor=True)
     #test_regularization(train_data,test_data, "../res/config.json", "../results/reg_test.csv", 0.00000001, 0.2, 1.5, run_osdt, reset_file=True, factor=True)
