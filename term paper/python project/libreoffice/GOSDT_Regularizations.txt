@@ -1,0 +1,3 @@
+Dota2: 0.18
+kr-vs-kp: 0.05
+spambase: 0.055
