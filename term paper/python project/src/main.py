@@ -9,9 +9,9 @@ import pandas as pd
 
 if __name__ == '__main__':
     path = Path("../res/benchmarks")
-    subject = Path('spambase')
+    subject = Path('adult')
     size = 50
-    binary_file = False
+    binary_file = True
     train_file = (path / 'train' / subject / (('bin_' if binary_file else '') + str(size))).with_suffix('.csv')
     test_file = (path / 'test' / subject / (('bin_' if binary_file else '') + str(size))).with_suffix('.csv')
     data = reader.collect_data(Path('../res'))
@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
     model = GOSDT(hyperparameters)
     model.load("../results/model.json")
-    # model.fit(X, y)
+    #model.fit(X, y)
     print("Execution Time: {}".format(model.time))
 
     model.predict(X)
@@ -67,10 +67,7 @@ if __name__ == '__main__':
     dataframe = pd.DataFrame(pd.read_csv(train_file))
     X = dataframe[dataframe.columns[:-1]]
     y = dataframe[dataframe.columns[-1:]]
-    X2 = pd.read_csv(train_file)
-    X2 = X2[X2.columns[:-1]]
-    model.predict(X2)
-    exit()
+    model.predict(X)
     training_accuracy = model.score(X, y)
     print("Training Accuracy: {}".format(training_accuracy))
 

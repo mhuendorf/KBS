@@ -198,16 +198,15 @@ def generate_train_and_test_files(sizes=None):
                     else:
                         test_set.at[index, test_set.columns[j]] = c_val
                     j += 1
-
             new_columns = {}
             for column in test_set.columns:
-                new_columns[column] = str(column).replace(' ', '')
-            test_set.rename(columns=new_columns, inplace=True)
+                new_columns[column] = str (column).replace(' ', '')
+            test_set.rename(columns=new_columns)
 
             new_columns = {}
             for column in bin_test_set.columns:
-                new_columns[column] = str(column).replace(' ', '')
-            bin_test_set.rename(columns=new_columns, inplace=True)
+                new_columns[column] = str (column).replace(' ', '')
+            bin_test_set.rename(columns=new_columns)
 
             test_set.reset_index(inplace=True, drop=True)
             bin_test_set.reset_index(inplace=True, drop=True)
@@ -220,7 +219,6 @@ def generate_train_and_test_files(sizes=None):
 
 
 if __name__ == '__main__':
-    warnings.simplefilter(action='ignore', category=PerformanceWarning)
     set_sizes = [50, 100, 200, 500, 1000]
     create_binary_csv(5)
     generate_train_and_test_files(set_sizes)

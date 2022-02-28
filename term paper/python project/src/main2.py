@@ -16,7 +16,7 @@ if __name__ == '__main__':
         config = config_file.read()
     gosdt.configure(config)
 
-    dataframe = pd.DataFrame(pd.read_csv("../res/benchmarks/train/adult/50.csv"))
+    dataframe = pd.DataFrame(pd.read_csv("../res/benchmarks/adult/50.csv"))
 
     X = dataframe[dataframe.columns[:-1]]
     y = dataframe[dataframe.columns[-1:]]

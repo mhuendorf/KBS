@@ -10,7 +10,7 @@
   "diagnostics": false,
   "verbose": true,
 
-  "regularization": 0.1,
+  "regularization": 0.08,
   "uncertainty_tolerance": 0.0,
   "upperbound": 0.0,
 
@@ -19,7 +19,7 @@
   "stack_limit": 0,
   "tile_limit": 0,
   "time_limit": 0,
-  "worker_limit": 10,
+  "worker_limit": 4,
 
   "costs": "",
   "model": "",

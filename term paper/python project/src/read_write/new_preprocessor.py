@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 import pandas as pd
 import math
@@ -114,24 +113,7 @@ def handle_bools(orig_df: pd.DataFrame, new_df: pd.DataFrame, column: str) -> pd
 
 
 def bin_and_mask_dataframe(df: pd.DataFrame, path_to: Path, num_bins_numeric: int):
-
-    # remove all undefined cases
-    for index, row in df.iterrows():
-        j = 0
-        for value in row:
-            c_val = str(value).replace(' ', '')
-            if c_val == "?":
-                df = df.drop(index=index)
-                break
-            else:
-                df.at[index, df.columns[j]] = c_val
-            j += 1
-    df.reset_index(inplace=True, drop=True)
-    df.to_csv('./temp.csv', index=False)
-    df = pd.read_csv('./temp.csv')
-    os.remove("./temp.csv")
     new_df = pd.DataFrame()
-
     for column in df.columns:
         # if number, bin with range
         if is_numeric_dtype(df[column]):
