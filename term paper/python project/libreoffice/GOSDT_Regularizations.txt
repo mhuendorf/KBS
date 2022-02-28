@@ -2,4 +2,4 @@ Dota2: 0.18
 kr-vs-kp: 0.05
 spambase: 0.055
 agaricus:0.005
-adult: 0.07
+adult: 0.075
