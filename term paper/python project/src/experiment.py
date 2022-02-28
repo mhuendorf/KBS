@@ -129,9 +129,6 @@ def run_gosdt_withoutc(data_csv_paths: [str], test_csv_paths: [str], config_file
         X = dataframe[dataframe.columns[:-1]]
         y = dataframe[dataframe.columns[-1:]]
 
-        print(X)
-        print(y)
-
         # execute
 
         start = time.time()
@@ -354,7 +351,7 @@ def testreg_osdt():
     """
     train_data = ["../res/benchmarks/train/kr-vs-kp/bin_1000.csv"]
     test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
-    test_regularization(train_data, test_data, "../res/config.json", "../results/reg_test_osdt.csv", 0.0000000001, 0.2, 1.5,
+    test_regularization(train_data, test_data, "../res/config.json", "../results/reg_test_osdt.csv", 0.00000001, 0.2, 1.5,
                         run_osdt, reset_file=True, factor=True)
 
 def testreg_gosdt():
@@ -365,8 +362,8 @@ def testreg_gosdt():
     """
     train_data = ["../res/benchmarks/train/kr-vs-kp/bin_1000.csv"]
     test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
-    test_regularization(train_data, test_data, "../res/config.json", "../results/reg_test_gosdt.csv", 0.023, 0.2, 1.1,
-                        run_gosdt_withoutc, reset_file=True, factor=True)
+    test_regularization(train_data, test_data, "../res/config.json", "../results/reg_test_osdt.csv", 00.0023, 0.2, 1.1,
+                        run_gosdt_withc, reset_file=True, factor=True)
 
 def testpyIds():
     """
@@ -444,7 +441,7 @@ def test_all():
             trainsetsp.append(["../res/benchmarks/train/" + dataset + "/" + str(numbers[i]) + ".csv"])
             testsetsp.append(["../res/benchmarks/test/" + dataset + "/" + str(numbers[i]) + ".csv"])
             if(dataset == "adult"):
-                gosdt_lambdas.append(0.075)
+                gosdt_lambdas.append(0.07)
             if (dataset == "agaricus-lepiota-Reordered"):
                 gosdt_lambdas.append(0.005)
             if (dataset == "dota2TrainReordered"):
@@ -461,18 +458,14 @@ def test_all():
     for i in range(len(trainsets)):
         run_osdt(trainsets[i], testsets[i], "../res/config.json", osdt_file, False, 0.005)
         run_gosdt_withoutc(trainsets[i], testsets[i], "../res/config.json", gosdt_file, False, gosdt_lambdas[i])
-        run_pyids(trainsetsp[i], testsetsp[i], "../res/config.json", pyids_file, False, alg_type="DLS")
+        run_pyids(trainsets[i], testsets[i], "../res/config.json", pyids_file, False, alg_type="DLS")
 
 
 
 
 if __name__ == '__main__':
-    #testreg_osdt()
-    #testreg_gosdt()
-    #testpyIds()
-    #testpyIds_bin()
     #test_trainsizes()
-    #test_all()
+    test_all()
     #test_data = ["../res/test/monk1-train_comma.csv"]
     #test_data = ["../res/test/balance-scale_comma.csv", "../res/test/compas-binary.csv", "../res/adult/bin_500.csv"]
     #train_data = ["../res/benchmarks/train/adult/1000.csv"]
@@ -504,14 +497,14 @@ if __name__ == '__main__':
                  "../res/benchmarks/test/spambase/bin_1000.csv",
                  "../res/benchmarks/test/dota2TrainReordered/bin_1000.csv"]
                  """
-    #train_data = ["../res/benchmarks/train/adult/bin_200.csv"]
-    #test_data = ["../res/benchmarks/test/adult/bin_200.csv"]
+    #train_data = ["../res/benchmarks/train/adult/1000.csv"]
+    #test_data = ["../res/benchmarks/test/adult/1000.csv"]
     #train_data = ["../res/benchmarks/train/kr-vs-kp/bin_1000.csv"]
     #test_data = ["../res/benchmarks/test/kr-vs-kp/bin_1000.csv"]
     #train_data = ["../res/benchmarks/train/adult/bin_1000.csv"]
     #test_data = ["../res/benchmarks/test/adult/bin_1000.csv"]
     #run_gosdt_withc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
-    #run_gosdt_withoutc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.09)
+    #run_gosdt_withoutc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
     #run_gosdt_withc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.08)
     #run_gosdt_withoutc(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.005)
     #run_osdt(train_data,test_data, "../res/config.json", "../results/first_result_file.csv", False, 0.1)
